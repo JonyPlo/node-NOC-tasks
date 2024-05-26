@@ -2,7 +2,7 @@ import { LogDataSource } from '../../domain/datasources/log.datasource'
 import { logEntity, LogSeverityLevel } from '../../domain/entities/log.entity'
 import fs from 'fs'
 
-// En este archivo es el unico lugar desde el que podemos llegar a la base de datos, file system, etc para el manejo de los logs
+// En este archivo es un 'datasource', y es el unico lugar desde el que podemos llegar a la base de datos, file system, etc en este caso para el manejo de los logs
 export class FileSystemDataSource implements LogDataSource {
   private readonly logPath = 'logs/'
   private readonly allLogsPath = 'logs/logs-all.log'
@@ -41,7 +41,26 @@ export class FileSystemDataSource implements LogDataSource {
     }
   }
 
-  getLogs(severityLevel: LogSeverityLevel): Promise<logEntity[]> {
-    throw new Error('Method not implemented.')
+  private getLogsFromFile = (path: string): logEntity[] => {
+    const content = fs.readFileSync(path, 'utf-8')
+    const logs = content.split('\n').map((log) => logEntity.fromJson(log))
+
+    return logs
+  }
+
+  async getLogs(severityLevel: LogSeverityLevel): Promise<logEntity[]> {
+    switch (severityLevel) {
+      case LogSeverityLevel.low:
+        return this.getLogsFromFile(this.allLogsPath)
+
+      case LogSeverityLevel.medium:
+        return this.getLogsFromFile(this.mediumLogsPath)
+
+      case LogSeverityLevel.high:
+        return this.getLogsFromFile(this.highLogsPath)
+
+      default:
+        throw new Error(`${severityLevel} not implemented`)
+    }
   }
 }

@@ -16,4 +16,16 @@ export class logEntity {
     this.message = message
     this.createAt = new Date()
   }
+
+  // Este metodo recibira los los guardados en los archivos, los parseara para convertirlos en un objeto de js y los devolvera como un objeto
+  static fromJson = (json: string): logEntity => {
+    const { level, message, createAt } = JSON.parse(json)
+    if (!message) throw new Error('Message is required')
+    if (!level) throw new Error('Level is required')
+
+    const log = new logEntity(level, message)
+    log.createAt = new Date(createAt)
+
+    return log
+  }
 }
