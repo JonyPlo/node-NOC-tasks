@@ -1,4 +1,4 @@
-// Este archivo es llamado 'Entity' o 'Entidad', y una entidad es algo que eventualmente va a terminar llegando a la base de datos, pero no graba directamente en la base de datos, si no que es quien va a gobernar la aplicacion cuando quieramos trabajar con nuestras entidades
+// Este archivo es llamado 'Entity' o 'Entidad', y es algo que eventualmente va a terminar llegando a la base de datos, pero no graba directamente en la base de datos, si no que es quien va a gobernar la aplicacion cuando queramos trabajar con nuestras entidades
 
 export enum LogSeverityLevel {
   low = 'low',
