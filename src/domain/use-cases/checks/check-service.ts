@@ -5,8 +5,8 @@ interface CheckServiceUseCase {
   execute(url: string): Promise<boolean>
 }
 
-type SuccessCallback = () => void
-type ErrorCallback = (error: string) => void
+type SuccessCallback = (() => void) | undefined
+type ErrorCallback = ((error: string) => void) | undefined
 
 export class CheckService implements CheckServiceUseCase {
   // Dentro de este constructor estamos haciendo algo que se llama inyeccion de dependencias, y una inyeccion de dependencias no es mas que los 'casos de uso' reciban las dependencias que necesitan para poder funcionar
@@ -28,7 +28,7 @@ export class CheckService implements CheckServiceUseCase {
       const log = new logEntity(LogSeverityLevel.low, `Service ${url} working`)
 
       this.logRepository.saveLog(log)
-      this.successCallback()
+      this.successCallback && this.successCallback()
 
       return true
     } catch (error) {
@@ -36,7 +36,7 @@ export class CheckService implements CheckServiceUseCase {
       const log = new logEntity(LogSeverityLevel.high, errorMessage)
 
       this.logRepository.saveLog(log)
-      this.errorCallback(errorMessage)
+      this.errorCallback && this.errorCallback(errorMessage)
       return false
     }
   }
