@@ -12,15 +12,17 @@ export class Server {
   public static start() {
     console.log('Server is running')
 
-    CronService.createJob('*/5 * * * * *', () => {
-      const url = 'https://google.com'
+    // Mandar email
 
-      new CheckService(
-        fileSystemLogRepository,
-        () => console.log(`${url} is ok`),
-        (error) => console.log(error)
-      ).execute(url)
-    })
+    // CronService.createJob('*/5 * * * * *', () => {
+    //   const url = 'https://google.com'
+
+    //   new CheckService(
+    //     fileSystemLogRepository,
+    //     () => console.log(`${url} is ok`),
+    //     (error) => console.log(error)
+    //   ).execute(url)
+    // })
   }
 }
 

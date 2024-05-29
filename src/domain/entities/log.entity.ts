@@ -6,25 +6,35 @@ export enum LogSeverityLevel {
   high = 'high',
 }
 
+export interface logEntityOptions {
+  level: LogSeverityLevel
+  message: string
+  createAt?: Date
+  origin: string
+}
+
 export class logEntity {
   public level: LogSeverityLevel
   public message: string
   public createAt: Date
+  public origin: string
 
-  constructor(level: LogSeverityLevel, message: string) {
+  constructor(options: logEntityOptions) {
+    const { level, message, createAt = new Date(), origin } = options
+
     this.level = level
     this.message = message
-    this.createAt = new Date()
+    this.createAt = createAt
+    this.origin = origin
   }
 
-  // Este metodo recibira los los guardados en los archivos, los parseara para convertirlos en un objeto de js y los devolvera como un objeto
+  // Este metodo recibira los logs guardados en los archivos, los parseara para convertirlos en un objeto de js y los devolvera como un objeto
   static fromJson = (json: string): logEntity => {
     const { level, message, createAt } = JSON.parse(json)
     if (!message) throw new Error('Message is required')
     if (!level) throw new Error('Level is required')
 
-    const log = new logEntity(level, message)
-    log.createAt = new Date(createAt)
+    const log = new logEntity({ level, message, createAt, origin })
 
     return log
   }

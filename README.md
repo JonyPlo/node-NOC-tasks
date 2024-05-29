@@ -13,3 +13,6 @@ MAILER_EMAIL=
 MAILER_SECRET_KEY=
 PROD=false
 ```
+
+3. Ejecutar el comando `pnpm install` para instalar las dependencias
+4. Ejecutar el comando `pnpm run dev`
