@@ -13,7 +13,7 @@ export interface logEntityOptions {
   origin: string
 }
 
-export class logEntity {
+export class LogEntity {
   public level: LogSeverityLevel
   public message: string
   public createAt: Date
@@ -29,12 +29,18 @@ export class logEntity {
   }
 
   // Este metodo recibira los logs guardados en los archivos, los parseara para convertirlos en un objeto de js y los devolvera como un objeto
-  static fromJson = (json: string): logEntity => {
-    const { level, message, createAt } = JSON.parse(json)
-    if (!message) throw new Error('Message is required')
-    if (!level) throw new Error('Level is required')
+  static fromJson = (json: string): LogEntity => {
+    json = json === '' ? '{}' : json
 
-    const log = new logEntity({ level, message, createAt, origin })
+    const { level, message, createAt, origin } = JSON.parse(json)
+    const log = new LogEntity({ level, message, createAt, origin })
+
+    return log
+  }
+
+  static fromObject = (object: { [key: string]: any }): LogEntity => {
+    const { message, level, createAt, origin } = object
+    const log = new LogEntity({ level, message, createAt, origin })
 
     return log
   }

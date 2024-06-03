@@ -1,5 +1,5 @@
 import { LogDataSource } from '../../domain/datasources/log.datasource'
-import { logEntity, LogSeverityLevel } from '../../domain/entities/log.entity'
+import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity'
 import { LogRepository } from '../../domain/repository/log.repository'
 
 // La funcion de la implementacion de un repositorio simplemente es recibir algun tipo de datasource y llamar a los metodos del datasource. El objetivos de esta implementacion es que facilmente podamos cambiar el datasource que recibe la implementacion por cualquier otro
@@ -10,11 +10,11 @@ export class LogRepositoryImpl implements LogRepository {
     private readonly logDataSource: LogDataSource
   ) {}
 
-  async saveLog(log: logEntity): Promise<void> {
+  async saveLog(log: LogEntity): Promise<void> {
     return this.logDataSource.saveLog(log)
   }
 
-  async getLogs(severityLevel: LogSeverityLevel): Promise<logEntity[]> {
+  async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
     return this.logDataSource.getLogs(severityLevel)
   }
 }

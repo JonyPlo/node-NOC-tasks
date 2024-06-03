@@ -1,5 +1,5 @@
 import { EmailService } from '../../../presentation/email/email.service'
-import { LogSeverityLevel, logEntity } from '../../entities/log.entity'
+import { LogSeverityLevel, LogEntity } from '../../entities/log.entity'
 import { LogRepository } from '../../repository/log.repository'
 
 interface SendEmailLogsUseCase {
@@ -16,7 +16,7 @@ export class SendEmailLogs implements SendEmailLogsUseCase {
     try {
       const sent = await this.emailService.sendEmailWithFileSystemLogs(to)
 
-      const log = new logEntity({
+      const log = new LogEntity({
         message: `Log email sent`,
         level: LogSeverityLevel.low,
         origin: 'send-email.logs.ts',
@@ -32,7 +32,7 @@ export class SendEmailLogs implements SendEmailLogsUseCase {
     } catch (error) {
       console.log(error)
 
-      const log = new logEntity({
+      const log = new LogEntity({
         message: `${error}`,
         level: LogSeverityLevel.high,
         origin: 'send-email.logs.ts',

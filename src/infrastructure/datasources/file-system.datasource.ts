@@ -1,5 +1,5 @@
 import { LogDataSource } from '../../domain/datasources/log.datasource'
-import { logEntity, LogSeverityLevel } from '../../domain/entities/log.entity'
+import { LogEntity, LogSeverityLevel } from '../../domain/entities/log.entity'
 import fs from 'fs'
 
 // En este archivo es un 'datasource', y es el unico lugar desde el que podemos llegar a la base de datos, file system, etc en este caso para el manejo de los logs
@@ -27,7 +27,7 @@ export class FileSystemDataSource implements LogDataSource {
     )
   }
 
-  async saveLog(newLog: logEntity): Promise<void> {
+  async saveLog(newLog: LogEntity): Promise<void> {
     const logAsJson = `${JSON.stringify(newLog)}\n`
 
     fs.appendFileSync(this.allLogsPath, logAsJson)
@@ -41,14 +41,17 @@ export class FileSystemDataSource implements LogDataSource {
     }
   }
 
-  private getLogsFromFile = (path: string): logEntity[] => {
+  private getLogsFromFile = (path: string): LogEntity[] => {
     const content = fs.readFileSync(path, 'utf-8')
-    const logs = content.split('\n').map((log) => logEntity.fromJson(log))
+
+    if (content === '') return []
+
+    const logs = content.split('\n').map((log) => LogEntity.fromJson(log))
 
     return logs
   }
 
-  async getLogs(severityLevel: LogSeverityLevel): Promise<logEntity[]> {
+  async getLogs(severityLevel: LogSeverityLevel): Promise<LogEntity[]> {
     switch (severityLevel) {
       case LogSeverityLevel.low:
         return this.getLogsFromFile(this.allLogsPath)
