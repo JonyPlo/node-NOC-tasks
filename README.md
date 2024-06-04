@@ -15,8 +15,9 @@ PROD=false
 ```
 
 3. Ejecutar el comando `pnpm install` para instalar las dependencias
-4. Ejecutar el comando `pnpm run dev`
+4. Levantar las bases de datos con el comando `docker compose up -d`
+5. Ejecutar el comando `pnpm run dev`
 
-## Obtener Gmail Key
+## Obtener GMail Key
 
 [Google AppPasswords](https://myaccount.google.com/u/0/apppasswords)
