@@ -9,22 +9,22 @@ export enum LogSeverityLevel {
 export interface logEntityOptions {
   level: LogSeverityLevel
   message: string
-  createAt?: Date
+  createdAt?: Date
   origin: string
 }
 
 export class LogEntity {
   public level: LogSeverityLevel
   public message: string
-  public createAt: Date
+  public createdAt: Date
   public origin: string
 
   constructor(options: logEntityOptions) {
-    const { level, message, createAt = new Date(), origin } = options
+    const { level, message, createdAt = new Date(), origin } = options
 
     this.level = level
     this.message = message
-    this.createAt = createAt
+    this.createdAt = createdAt
     this.origin = origin
   }
 
@@ -32,15 +32,15 @@ export class LogEntity {
   static fromJson = (json: string): LogEntity => {
     json = json === '' ? '{}' : json
 
-    const { level, message, createAt, origin } = JSON.parse(json)
-    const log = new LogEntity({ level, message, createAt, origin })
+    const { level, message, createdAt, origin } = JSON.parse(json)
+    const log = new LogEntity({ level, message, createdAt, origin })
 
     return log
   }
 
   static fromObject = (object: { [key: string]: any }): LogEntity => {
-    const { message, level, createAt, origin } = object
-    const log = new LogEntity({ level, message, createAt, origin })
+    const { message, level, createdAt, origin } = object
+    const log = new LogEntity({ level, message, createdAt, origin })
 
     return log
   }
