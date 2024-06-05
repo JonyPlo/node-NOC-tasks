@@ -33,7 +33,12 @@ export class LogEntity {
     json = json === '' ? '{}' : json
 
     const { level, message, createdAt, origin } = JSON.parse(json)
-    const log = new LogEntity({ level, message, createdAt, origin })
+    const log = new LogEntity({
+      level,
+      message,
+      createdAt: new Date(createdAt),
+      origin,
+    })
 
     return log
   }
