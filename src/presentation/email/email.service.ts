@@ -1,16 +1,14 @@
 import nodemailer from 'nodemailer'
 import { envs } from '../../config/plugins/env.plugin'
-import { LogRepository } from '../../domain/repository/log.repository'
-import { LogSeverityLevel, LogEntity } from '../../domain/entities/log.entity'
 
-interface SendMailOptions {
+export interface SendMailOptions {
   to: string | string[]
   subject: string
   htmlBody: string
-  attachments: Attachment[]
+  attachments?: Attachment[]
 }
 
-interface Attachment {
+export interface Attachment {
   filename?: string
   path?: string
 }
